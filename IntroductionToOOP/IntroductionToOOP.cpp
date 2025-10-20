@@ -64,55 +64,6 @@ public:
 	{
 		cout << numerator << "/" << denominator << endl;
 	}
-	void reduction()
-	{
-		int result;
-		while (true)
-		{
-			int i;
-			if (numerator & 2 == 0)
-			{
-				numerator /= 2;
-				i = 2;
-			}
-			else if (numerator & 3 == 0)
-			{
-				numerator /= 3;
-				i = 3;
-			}
-			else if (numerator & 5 == 0)
-			{
-				numerator /= 5;
-				i = 5;
-			}
-			else
-			{
-				result *= numerator;
-				break;
-			}
-
-			if (denominator & 2 == 0)
-			{
-				denominator /= 2;
-				i = 2;
-			}
-			else if (denominator & 3 == 0)
-			{
-				denominator /= 3;
-				i = 3;
-			}
-			else if (denominator & 5 == 0)
-			{
-				denominator /= 5;
-				i = 5;
-			}
-			else
-			{
-				result *= denominator;
-				break;
-			}
-		}
-	}
 };
 
 Fraction operator+(const Fraction& left, const Fraction& right);
