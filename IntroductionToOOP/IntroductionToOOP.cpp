@@ -35,6 +35,7 @@ public:
 	}
 	Fraction(int numerator, int denominator)
 	{
+		if (denominator == 0) denominator = 1;
 		this->numerator = numerator;
 		this->denominator = denominator;
 		cout << "NumDenomArgConstructor:\t" << this << endl;
@@ -87,6 +88,27 @@ public:
 			else
 			{
 				result *= numerator;
+				break;
+			}
+
+			if (denominator & 2 == 0)
+			{
+				denominator /= 2;
+				i = 2;
+			}
+			else if (denominator & 3 == 0)
+			{
+				denominator /= 3;
+				i = 3;
+			}
+			else if (denominator & 5 == 0)
+			{
+				denominator /= 5;
+				i = 5;
+			}
+			else
+			{
+				result *= denominator;
 				break;
 			}
 		}
