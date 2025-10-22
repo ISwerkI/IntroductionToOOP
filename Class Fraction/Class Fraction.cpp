@@ -152,10 +152,6 @@ Fraction operator+(const Fraction left, const Fraction right);
 Fraction operator-(const Fraction left, const Fraction right);
 Fraction operator/(const Fraction left, const Fraction right);
 Fraction operator*(Fraction left, Fraction right);
-Fraction operator+=(const Fraction& right, Fraction& left);
-Fraction operator-=(const Fraction& right, Fraction& left);
-Fraction operator*=(const Fraction& right, Fraction& left);
-Fraction operator/=(const Fraction& right, Fraction& left);
 
 
 void main()
