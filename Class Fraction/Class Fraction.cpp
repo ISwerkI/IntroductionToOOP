@@ -12,6 +12,9 @@ using std::endl;
 //#define COMPOUND_ASSIGNMENTS_CHECK
 //#define INCREMENTO_DECREMENTO
 //#define STREAMS_CHECK1
+//#define TYPE_CONVERTIONS_BASIC
+//#define CONVERSION_FROM_OTHER_TO_CLASS
+#define HW
 
 class Fraction
 {
@@ -53,7 +56,7 @@ public:
 		denominator = 1;
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
-	Fraction(int integer)
+	explicit Fraction(int integer)
 	{
 		this->integer = integer;
 		this->numerator = 0;
@@ -272,10 +275,24 @@ void main()
 	cout << "¬ведите простую дробь: "; cin >> A;
 	cout << endl << A << endl;
 #endif
-	Fraction A, B, C;
-	cout << "¬ведите три простых дроби: ";
-	cin >> A >> B >> C;
-	cout << A << tab << B << tab << C << endl;
+#ifdef TYPE_CONVERTIONS_BASIC
+	int a = 2;
+	double b = a;
+	int c = b;
+	int d = 3.14;
+#endif
+#ifdef CONVERSION_FROM_OTHER_TO_CLASS
+	Fraction A = (Fraction)5;
+	cout << A << endl;
+
+	Fraction B;
+	B = Fraction(8);
+	cout << B << endl;
+#endif
+#ifdef HW
+	Fraction A = 2.45;
+	cout << A << endl;
+#endif
 }
 Fraction operator*(Fraction left, Fraction right)
 {
