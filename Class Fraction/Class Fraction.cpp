@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 using std::cin;
 using std::cout;
@@ -10,6 +11,7 @@ using std::endl;
 //#define ARITHMETIC_CHECK
 //#define COMPOUND_ASSIGNMENTS_CHECK
 //#define INCREMENTO_DECREMENTO
+//#define STREAMS_CHECK1
 
 class Fraction
 {
@@ -54,7 +56,7 @@ public:
 	Fraction(int integer)
 	{
 		this->integer = integer;
-		this -> numerator = 0;
+		this->numerator = 0;
 		this->denominator = 1;
 		cout << "SingleArgumentConstructor:" << this << endl;
 	}
@@ -184,7 +186,7 @@ public:
 		denominator /= GCD;
 		return *this;
 	}
-	
+
 	void print()const
 	{
 		if (integer)cout << integer;
@@ -210,6 +212,7 @@ bool operator<=(Fraction left, Fraction right);
 bool operator<(Fraction left, Fraction right);
 bool operator>(Fraction left, Fraction right);
 std::ostream& operator<<(std::ostream& os, const Fraction& obj);
+std::istream& operator>>(std::istream& is, Fraction& obj);
 
 
 
@@ -240,7 +243,7 @@ void main()
 	Fraction B(3, 4, 5);
 	B.print();
 
-	Fraction C = A/B;
+	Fraction C = A / B;
 	C.to_proper();
 	C.print();
 #endif
@@ -255,7 +258,7 @@ void main()
 	A.print();
 #endif
 #ifdef INCREMENTO_DECREMENTO
-	for (Fraction i(1,2); i.get_integer() < 10; i++)
+	for (Fraction i(1, 2); i.get_integer() < 10; i++)
 	{
 		i.print();
 	}
@@ -264,53 +267,56 @@ void main()
 	Fraction B = A++;
 	B.print();
 #endif
-	Fraction A(1,2,4);
-	Fraction B(1,2,4);
-	bool C;
-	C = A >= B;
-	cout << C<<endl;
+#ifdef STREAMS_CHECK1
+	Fraction A(2, 3, 4);
+	cout << "¬ведите простую дробь: "; cin >> A;
+	cout << endl << A << endl;
+#endif
+	Fraction A, B, C;
+	cout << "¬ведите три простых дроби: ";
+	cin >> A >> B >> C;
+	cout << A << tab << B << tab << C << endl;
 }
-
-Fraction operator*( Fraction left, Fraction right)
+Fraction operator*(Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();
 	left.to_improper();
 	right.to_improper();
-	return Fraction 
+	return Fraction
 	(
 		left.get_num() * right.get_num(),
 		left.get_denom() * right.get_denom()
 	);
 
 }
-Fraction operator+( Fraction left, Fraction right)
+Fraction operator+(Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();
 	left.to_improper();
 	right.to_improper();
-	return Fraction 
+	return Fraction
 	(
 		left.get_num() * right.get_denom() + right.get_num() * left.get_denom(),
 		left.get_denom() * right.get_denom()
 	);
 
 }
-Fraction operator-( Fraction left, Fraction right)
+Fraction operator-(Fraction left, Fraction right)
 {
 	left.to_improper();
 	right.to_improper();
 	left.to_improper();
 	right.to_improper();
-	return Fraction 
+	return Fraction
 	(
 		left.get_num() * right.get_denom() - right.get_num() * left.get_denom(),
 		left.get_denom() * right.get_denom()
 	);
 
 }
-Fraction operator/( Fraction left, Fraction right)
+Fraction operator/(Fraction left, Fraction right)
 {
 
 	return Fraction
@@ -366,4 +372,40 @@ std::ostream& operator<<(std::ostream& os, const Fraction& obj)
 	}
 	else if (obj.get_integer() == 0) os << 0;
 	return os;
+}
+std::istream& operator>>(std::istream& is, Fraction& obj)
+{
+	const int SIZE = 32;
+	char buffer[SIZE] = {};
+	is >> buffer;
+	//is.getline(buffer, SIZE);
+	cout << buffer << endl;
+	int numbers[3] = {};
+	const char delimiters[] = "+( )/";
+	int n = 0;
+	for (char* pch = strtok(buffer, delimiters); pch; pch = strtok(NULL, delimiters))
+	{
+		numbers[n++] = std::atoi(pch);
+		//cout << pch << "\t";
+	}
+	for (int i = 0; i < n; i++)
+	{
+		cout << numbers[i] << endl;
+	}
+	cout << endl;
+	switch (n)
+	{
+	case 1: obj = Fraction(numbers[0]); break;
+	case 2: obj = Fraction(numbers[0], numbers[1]); break;
+	case 3: obj = Fraction(numbers[0], numbers[1], numbers[2]); break;
+	}
+	/*int integer;
+	int numerator;
+	int denominator;
+	is >> integer >> numerator >> denominator;
+	obj = Fraction(integer, numerator, denominator);
+	*/
+
+	return is;
+	
 }
