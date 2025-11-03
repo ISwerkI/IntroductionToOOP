@@ -14,7 +14,7 @@ using std::endl;
 //#define STREAMS_CHECK1
 //#define TYPE_CONVERTIONS_BASIC
 //#define CONVERSION_FROM_OTHER_TO_CLASS
-#define HW
+//#define HW
 
 class Fraction
 {
@@ -84,18 +84,13 @@ public:
 		this->denominator = other.denominator;
 		cout << "CopyConstructor: " << this << endl;
 	}
-	Fraction(double decimal)
+	explicit Fraction(double decimal)
 	{
-		this->integer = int(decimal);
-		double whole = decimal - int(decimal);
-		int multiplier = 1;
-		while (whole - int(whole) != 0)
-		{
-			multiplier *= 10;
-			whole *= 10;
-		}
-		this->numerator = whole;
-		this->denominator = multiplier;
+		integer = int(decimal);
+		int multiplier = 1e+9;
+		numerator = (decimal - int(decimal)) * multiplier;
+		denominator = multiplier;
+		reduce();
 		cout << "DecimalConstructor: " << this << endl;
 	}
 	//				Destrctor
@@ -166,6 +161,17 @@ public:
 		this->integer--;
 		return old;
 	}
+	//				Type-cast operators:
+	explicit operator int()const
+	{
+		return integer + numerator / denominator;
+	}
+	explicit operator double()const
+	{
+		double decimal = integer + double(numerator) / double(denominator);
+		return decimal;
+	}
+
 
 	//				Metods
 	Fraction& to_improper()
@@ -192,6 +198,7 @@ public:
 		int more, less, rest = 0;
 		if (numerator > denominator) more = numerator, less = denominator;
 		else less = numerator, more = denominator;
+		if (less == 0) return *this;
 		do
 		{
 			rest = more % less;
@@ -304,9 +311,16 @@ void main()
 	cout << B << endl;
 #endif
 #ifdef HW
-	Fraction A = 3.1;
+	Fraction A = Fraction{2.5};
 	cout << A << endl;
+	Fraction B = Fraction(8);
+	cout << B << endl;
 #endif
+
+	Fraction A(2, 1, 2);
+	cout << A << endl;
+	double a = double(A);
+	cout << a << endl;
 }
 Fraction operator*(Fraction left, Fraction right)
 {
