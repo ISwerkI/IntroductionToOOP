@@ -84,6 +84,20 @@ public:
 		this->denominator = other.denominator;
 		cout << "CopyConstructor: " << this << endl;
 	}
+	Fraction(double decimal)
+	{
+		this->integer = int(decimal);
+		double whole = decimal - int(decimal);
+		int multiplier = 1;
+		while (whole - int(whole) != 0)
+		{
+			multiplier *= 10;
+			whole *= 10;
+		}
+		this->numerator = whole;
+		this->denominator = multiplier;
+		cout << "DecimalConstructor: " << this << endl;
+	}
 	//				Destrctor
 	~Fraction()
 	{
@@ -290,7 +304,7 @@ void main()
 	cout << B << endl;
 #endif
 #ifdef HW
-	Fraction A = 2.45;
+	Fraction A = 3.1;
 	cout << A << endl;
 #endif
 }
