@@ -9,6 +9,9 @@ int StringLenght(const char str[]);
 char* ToUpper(char str[]);
 char* ToLower(char str[]);
 char* DelSpace(char str[]);
+bool is_palindrome(char str[]);
+bool is_int_number(char str[]);
+bool is_bin_number(char str[]);
 
 //#define LINES_BASICS_1
 
@@ -29,7 +32,8 @@ void main()
 	cin.getline(str,SIZE);
 	cout << str <<endl;
 	cout << StringLenght(str) << endl;
-	cout<<DelSpace(str);
+	is_bin_number(str);
+
 }
 
 int StringLenght(const char str[])
@@ -80,7 +84,54 @@ char* DelSpace(char str[])
 			SIZE--;
 			i--;
 		}
+		if (str[0] == ' ')
+		{
+			for (int j = 0; j < SIZE; j++)
+			{
+				str[j] = str[j + 1];
+			}
+			SIZE--;
+		}
 	}
 	return str;
 }
+bool is_palindrome(char str[])
+{
+	bool palindrome_check = 1;
+	str = ToLower(str);
+	int SIZE = StringLenght(str);
+	if (SIZE % 2 == 1) SIZE -= 1;
+	for (int i = 0; i < SIZE/2; i++, SIZE--)
+	{
+		if (str[i] != str[SIZE]) palindrome_check = 0; break;
+	}
+	if (palindrome_check == 0) cout << "Данная строка не является палиндромом" << endl;
+	else cout << "Данная строка является палиндромом!" << endl;
+	return palindrome_check;
+}
 
+bool is_int_number(char str[])
+{
+	bool number_check = 1;
+	int SIZE = StringLenght(str);
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (str[i] >= '0' && str[i] <= '9') continue;
+		else number_check = 0; break;
+	}
+	if (number_check == 0) cout << "Данная строка не является целым десятичным числом" << endl;
+	else cout << "Данная строка является целым десятичным числом!" << endl;
+	return number_check;
+}
+bool is_bin_number(char str[])
+{
+	bool bin_check = 1;
+	int SIZE = StringLenght(str);
+	for (int i = 0; i < SIZE; i++)
+	{
+		if (str[i] != '0' and str[i] != '1') bin_check = 0; break;
+	}
+	if (bin_check == 0) cout << "Данная строка не является двоичным числом" << endl;
+	else cout << "Данная строка является двоичным числом числом!" << endl;
+	return bin_check;
+}
