@@ -10,6 +10,7 @@ int StringLenght(const char str[]);
 char* ToUpper(char str[]);
 char* ToLower(char str[]);
 char* DelSpace(char str[]);
+int to_int_number(const char str[]);
 bool is_palindrome(const char str[]);
 bool is_int_number(const char str[]);
 bool is_bin_number(const char str[]);
@@ -17,6 +18,7 @@ int bin_to_dec(const char str[]);
 bool is_hex_number(const char str[]);
 int hex_to_dec(const char str[]);
 bool is_MAC_adress(const char str[]);
+bool is_IP_adress(const char str[]);
 
 //#define LINES_BASICS_1
 //#define LINES_BASICS_2
@@ -47,7 +49,7 @@ void main()
 	cout << "Введите строку: ";
 	SetConsoleCP(1251);
 	cin.getline(str, SIZE);
-	cout << is_MAC_adress(str) << endl;
+	cout << is_IP_adress(str) << endl;
 #endif
 }
 int StringLenght(const char str[])
@@ -117,6 +119,19 @@ char* DelSpace(char str[])
 		}
 	}
 	return str;
+}
+
+int to_int_number(const char str[])
+{
+	if (!is_int_number)return {};
+	int size = strlen(str);
+	int answer = 0;
+	for (int i = 0; i < size; i++)
+	{
+		answer *= 10;
+		answer += str[i] - '0';
+	}
+	return answer;
 }
 char* RemoveSymbol(char str[], char symbol = ' ')
 {
@@ -227,11 +242,37 @@ bool is_MAC_adress(const char str[])
 	{
 		if ((i + 1) % 3 == 0 && (str[i] == '-' || str[i] == ':')) continue;
 		else if ((i + 1) % 3 == 0) return false;
-		if (
+		if (!isxdigit(str[i]))return false;
+		/*if (
 				!(str[i] >= '0' && str[i] <= '9') &&
 				!(str[i] >= 'A' && str[i] <= 'F') &&
 				!(str[i] >= 'a' && str[i] <= 'f')
-				)return false;
+				)return false;*/
 	}
 	return true;
+}
+bool is_IP_adress(const char str[])
+{
+	if (strlen(str) < 7 || strlen(str) > 15)return false;
+	int start = 0;
+	int points_count = 0;
+	for (int i = 0; str[i]; i++)
+	{
+		if (str[i]=='.')
+		{
+			if (i - start > 3) return false;
+			char sz_byte[4] = {}; //sz - String Zero (Строка, котороая заканчивается нулем)
+			unsigned int i_byte = 0;
+			int k = 0;
+			for (int j = start; j < i; j++)
+			{
+				sz_byte[k++] = str[j];
+			}
+			i_byte = to_int_number(sz_byte);
+			if (i_byte > 255)return false;
+			start = i+1;
+			points_count++;
+		}
+	}
+	return points_count == 3 ? true: false;
 }
