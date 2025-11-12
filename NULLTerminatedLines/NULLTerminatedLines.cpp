@@ -16,9 +16,11 @@ bool is_bin_number(const char str[]);
 int bin_to_dec(const char str[]);
 bool is_hex_number(const char str[]);
 int hex_to_dec(const char str[]);
+bool is_MAC_adress(const char str[]);
 
 //#define LINES_BASICS_1
 //#define LINES_BASICS_2
+#define NUMERICS
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -39,12 +41,14 @@ void main()
 	cout << StringLenght(str) << endl;
 	is_palindrome(str);
 #endif
+#ifdef NUMERICS
 	const int SIZE = 33;
 	char str[SIZE] = {};
 	cout << "¬ведите строку: ";
 	SetConsoleCP(1251);
 	cin.getline(str, SIZE);
-	cout << hex_to_dec(str) << endl;
+	cout << is_MAC_adress(str) << endl;
+#endif
 }
 int StringLenght(const char str[])
 {
@@ -172,6 +176,7 @@ bool is_bin_number(const char str[])
 }
 int bin_to_dec(const char str[])
 {
+	if (!is_bin_number(str))return INT_MIN;
 	int decimal = 0;
 	int weight = 1;
 	int lenght = StringLenght(str);
@@ -213,4 +218,20 @@ int hex_to_dec(const char str[])
 		weight *= 16;
 	}
 	return decimal;
+}
+
+bool is_MAC_adress(const char str[])
+{
+	if (strlen(str) != 17) return false;
+	for (int i = 0; str[i]; i++)
+	{
+		if ((i + 1) % 3 == 0 && (str[i] == '-' || str[i] == ':')) continue;
+		else if ((i + 1) % 3 == 0) return false;
+		if (
+				!(str[i] >= '0' && str[i] <= '9') &&
+				!(str[i] >= 'A' && str[i] <= 'F') &&
+				!(str[i] >= 'a' && str[i] <= 'f')
+				)return false;
+	}
+	return true;
 }
