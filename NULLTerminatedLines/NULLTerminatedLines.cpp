@@ -19,6 +19,7 @@ bool is_hex_number(const char str[]);
 int hex_to_dec(const char str[]);
 bool is_MAC_adress(const char str[]);
 bool is_IP_adress(const char str[]);
+bool is_IP_adressTok(const char str[]);
 
 //#define LINES_BASICS_1
 //#define LINES_BASICS_2
@@ -49,7 +50,7 @@ void main()
 	cout << "¬ведите строку: ";
 	SetConsoleCP(1251);
 	cin.getline(str, SIZE);
-	cout << is_IP_adress(str) << endl;
+	cout << is_IP_adressTok(str) << endl;
 #endif
 }
 int StringLenght(const char str[])
@@ -275,4 +276,24 @@ bool is_IP_adress(const char str[])
 		}
 	}
 	return points_count == 3 ? true: false;
+}
+
+bool is_IP_adressTok(const char str[])
+{
+	NULL;
+	char size = strlen(str);
+	if (size < 7 || size>15)return false;
+	char* buffer = new char[size + 1] {};
+	strcpy(buffer, str);
+	int n = 0;
+	unsigned int bytes[4] = {};
+	for (char* pch = strtok(buffer, "."); pch; pch = strtok(NULL, "."))
+	{
+		bytes[n++] = std::atoi(pch);
+	}
+	delete[] buffer;
+	if (n < 3)return false;
+	for (int i = 0; i < n; i++)
+		if (bytes[i] > 255)return false;
+	return true;
 }
