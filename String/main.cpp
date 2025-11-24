@@ -70,6 +70,14 @@ public:
 		cout << "CopyAssigment:\t\t" << this << endl;
 		return *this;
 	}
+	const char operator[](int i) const
+	{
+		return str[i];
+	}
+	char& operator[](int i)
+	{
+		return str[i];
+	}
 };
 
 std::ostream& operator<<(std::ostream& os, const String& str);
