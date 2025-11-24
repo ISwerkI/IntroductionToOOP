@@ -47,6 +47,16 @@ public:
 		for (int i = 0;i<size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor: " << this << endl;
 	}
+	String(String&& other)
+	{
+		//String&& - r-value reference
+		this->size = other.size;
+		this->str = other.str;
+		other.size = 0;
+		other.str = nullptr;
+
+		cout << "MoveConstructor:"<< this << endl;
+	}
 	~String()
 	{
 		delete[] str;
@@ -67,7 +77,7 @@ public:
 		this->size = other.size;
 		this->str = new char [size] {};
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
-		cout << "CopyAssigment:\t\t" << this << endl;
+		cout << "CopyAssigment:\t" << this << endl;
 		return *this;
 	}
 	const char operator[](int i) const
@@ -95,12 +105,13 @@ void main()
 	//cout << str1 << endl;
 
 	String str2;
-	str2 = " zzzzzzz zzzz!! zzz";
+	str2 = "World!";
 	//cout << str2 << endl;
-
-	String str3;
-	str3 = str1 + str2;
-	str3.print();
+	cout << delimiter << endl;
+	String str3 = str1 + str2;
+	cout << delimiter << endl;
+	
+	cout << str3 << endl;
 }
 
 
