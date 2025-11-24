@@ -18,6 +18,10 @@ public:
 	{
 		return str;
 	}
+	const int get_size()const
+	{
+		return size;
+	}
 	//				Constructors:
 	explicit String(int size = 80)
 	{
@@ -54,6 +58,8 @@ public:
 	//				Operators:
 	String& operator=(const String& other)
 	{
+		if (this == &other)return *this;
+		delete[]this->str;
 		this->size = other.size;
 		this->str = new char [size] {};
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
@@ -63,6 +69,7 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& os, const String& str);
+String operator+(const String& left, const String& right);
 
 void main()
 {
@@ -71,12 +78,17 @@ void main()
 	str.print();
 
 	String str1 = "Hello";
+	str1 = str1;
 	//str1.print();
 	//cout << str1 << endl;
 
 	String str2;
-	str2 = str1;
-	cout << str2 << endl;
+	str2 = "zzzzzzzzzzzzzz";
+	//cout << str2 << endl;
+
+	String str3;
+	str3 = str1 + str2;
+	str3.print();
 }
 
 
@@ -84,4 +96,24 @@ void main()
 std::ostream& operator<<(std::ostream& os, const String& obj)
 {
 	return os << obj.get_str();
+}
+
+String operator+(const String& left, const String& right)
+{
+	int left_size = left.get_size() - 1;
+	int right_size = right.get_size();
+	int SIZE = left_size + right_size;
+	char* l_str = new char [SIZE] {};
+	for (int i = 0; i < left_size; i++)
+	{
+		l_str[i] = left.get_str()[i];
+	}
+	int j = 0;
+	for (int i = left_size; i < SIZE; i++)
+	{
+		l_str[i] = right.get_str()[j];
+		j++;
+	}	
+	return String(l_str);
+
 }
