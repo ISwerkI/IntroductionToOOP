@@ -18,6 +18,10 @@ public:
 	{
 		return str;
 	}
+	char* get_str()
+	{
+		return str;
+	}
 	const int get_size()const
 	{
 		return size;
@@ -83,7 +87,7 @@ void main()
 	//cout << str1 << endl;
 
 	String str2;
-	str2 = "zzzzzzzzzzzzzz";
+	str2 = " zzzzzzz zzzz!! zzz";
 	//cout << str2 << endl;
 
 	String str3;
@@ -100,20 +104,20 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 
 String operator+(const String& left, const String& right)
 {
-	int left_size = left.get_size() - 1;
+	String result (left.get_size() + right.get_size()-1);
+	int size = result.get_size();
 	int right_size = right.get_size();
-	int SIZE = left_size + right_size;
-	char* l_str = new char [SIZE] {};
-	for (int i = 0; i < left_size; i++)
+	int left_size = left.get_size()-1;
+	for (int i = 0; i < left.get_size(); i++)
 	{
-		l_str[i] = left.get_str()[i];
+		result.get_str()[i] = left.get_str()[i];
 	}
 	int j = 0;
-	for (int i = left_size; i < SIZE; i++)
+	for (int i = left_size; i < size; i++)
 	{
-		l_str[i] = right.get_str()[j];
+		result.get_str()[i] = right.get_str()[j];
 		j++;
 	}	
-	return String(l_str);
+	return result;
 
 }
