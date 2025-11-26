@@ -8,7 +8,9 @@ using std::endl;
 
 #define tab "\t"
 #define delimiter "\n--------------------------------------------------------"
+#define CALLING_CONSTRUCTORS
 
+//#define OPRERATORS_CHECK
 class String
 {
 	int size;
@@ -107,6 +109,7 @@ String operator+(const String& left, const String& right);
 void main()
 {
 	setlocale(LC_ALL, "");
+#ifdef OPRERATORS_CHECK
 	String str(12);
 	str.print();
 
@@ -119,10 +122,48 @@ void main()
 	str2 = "World!";
 	//cout << str2 << endl;
 	cout << delimiter << endl;
-	String str3 = str1 + str2;
+	String str3;
+	str3 = str1 + str2;
 	cout << delimiter << endl;
 	
 	cout << str3 << endl;
+#endif
+#ifdef CALLING_CONSTRUCTORS
+
+	String str1;//Default Constructor
+	str1.print();
+
+	String str2(5);//Single-argument constructor int (explicit)
+	str2.print();
+
+	String str3 = "Hello";
+	str3.print();
+
+	String str4();//NOT Default constructor
+
+	String str5{};
+	str5.print();
+
+	String str6{ 7 };
+	str6.print();
+
+	String str7("World");
+	str7.print();
+	String str8{ "World" };
+	str8.print();
+	String str9 = str3;//Copy Constructor
+	String str10(str9);//Copy Constructor
+	String str11{ str9 };//Copy Constructor
+	
+	String str12 = str3 + str7;//MoveConstructor
+	str12.print();
+
+	String str13(str3 + str7);//MoveConstructor
+	str13.print();
+
+	String str14{ str3 + str7 };//MoveConstructor
+	str14.print();
+#endif
 }
 
 
