@@ -93,8 +93,7 @@ public:
 		if (this == &other)return *this;
 		delete[]this->str;
 		this->size = other.size;
-		this->str = new char [size] {};
-		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
+		this->str = other.str;
 		other.size = 0;
 		other.str = nullptr; 
 		cout << "MoveAssigment:\t" << this << endl;
