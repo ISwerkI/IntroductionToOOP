@@ -8,7 +8,8 @@ using std::endl;
 
 #define tab "\t"
 #define delimiter "\n--------------------------------------------------------"
-#define CALLING_CONSTRUCTORS
+#define OPRERATORS_CHECK
+//#define CALLING_CONSTRUCTORS
 
 //#define OPRERATORS_CHECK
 class String
@@ -29,27 +30,28 @@ public:
 		return size;
 	}
 	//				Constructors:
-	explicit String(int size = 80):size(size), str(new char[size]{})
+	explicit String(int size = 80):
+		size(size), 
+		str(new char[size]{})
 	{
 		//this->size = size;
 		//this->str = new char [size] {};
 		cout << "DefConstructor:\t" << this << endl;
 	}
-	String(const char str[]):size(strlen(str)+1),str(new char[size]{})
+	String(const char str[]) :String(strlen(str) + 1)  // :String(strlen(str) + 1) - это для this, а серый str нужен только для нужного выделения памяти.
 	{
 		//this->size = strlen(str) + 1;
 		//this->str = new char[size] {};
 		for (int i = 0; str[i]; i++)this->str[i] = str[i];
 		cout << "Constructor:\t" << this << endl;
 	}
-	String(const String& other):size(other.size), str(new char[size]{})
+	String(const String& other) :String(other.str)
 	{
 		//this->size = other.size;
 		//this->str = new char [size] {};
-		for (int i = 0;i<size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor: " << this << endl;
 	}
-	String(String&& other)
+	String(String&& other) :size()
 	{
 		//String&& - r-value reference
 		this->size = other.size;
@@ -154,6 +156,8 @@ void main()
 	String str9 = str3;//Copy Constructor
 	String str10(str9);//Copy Constructor
 	String str11{ str9 };//Copy Constructor
+	str11.print();
+	cout << "LFFFF<" << endl;
 	
 	String str12 = str3 + str7;//MoveConstructor
 	str12.print();
