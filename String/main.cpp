@@ -10,103 +10,130 @@ using std::endl;
 #define delimiter "\n--------------------------------------------------------"
 #define OPRERATORS_CHECK
 //#define CALLING_CONSTRUCTORS
-
 //#define OPRERATORS_CHECK
+
+
+/// ////////////////////////////////////////////////////////////////////////////////////////////
+/// Class Declaration
 class String
 {
 	int size;
 	char* str;
 public:
-	const char* get_str()const
-	{
-		return str;
-	}
-	char* get_str()
-	{
-		return str;
-	}
-	const int get_size()const
-	{
-		return size;
-	}
+	const char* get_str()const;
+	char* get_str();
+	int get_size()const;
 	//				Constructors:
-	explicit String(int size = 80):
-		size(size), 
-		str(new char[size]{})
-	{
-		//this->size = size;
-		//this->str = new char [size] {};
-		cout << "DefConstructor:\t" << this << endl;
-	}
-	String(const char str[]) :String(strlen(str) + 1)  // :String(strlen(str) + 1) - это для this, а серый str нужен только для нужного выделения памяти.
-	{
-		//this->size = strlen(str) + 1;
-		//this->str = new char[size] {};
-		for (int i = 0; str[i]; i++)this->str[i] = str[i];
-		cout << "Constructor:\t" << this << endl;
-	}
-	String(const String& other) :String(other.str)
-	{
-		//this->size = other.size;
-		//this->str = new char [size] {};
-		cout << "CopyConstructor: " << this << endl;
-	}
-	String(String&& other) :size()
-	{
-		//String&& - r-value reference
-		this->size = other.size;
-		this->str = other.str;
-		other.size = 0;
-		other.str = nullptr;
-
-		cout << "MoveConstructor:"<< this << endl;
-	}
-	~String()
-	{
-		delete[] str;
-		cout << "Destructor:\t" << this << endl;
-	}
+	explicit String(int size = 80);
+	String(const char str[]); // :String(strlen(str) + 1) - это для this, а серый str нужен только для нужного выделения памяти.
+	String(const String& other);
+	String(String&& other);
+	~String();
 
 	//				Metods:
-	void print()const
-	{
-		cout << "Size:\t" << size << endl;
-		cout << "Str:\t" << str << endl;
-	}
+	void print()const;
 	//				Operators:
-	String& operator=(const String& other)
-	{
-		if (this == &other)return *this;
-		delete[]this->str;
-		this->size = other.size;
-		this->str = new char [size] {};
-		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
-		cout << "CopyAssigment:\t" << this << endl;
-		return *this;
-	}
-	const char operator[](int i) const
-	{
-		return str[i];
-	}
-	char& operator[](int i)
-	{
-		return str[i];
-	}
-	String& operator= (String&& other)
-	{
-		if (this == &other)return *this;
-		delete[]this->str;
-		this->size = other.size;
-		this->str = other.str;
-		other.size = 0;
-		other.str = nullptr; 
-		cout << "MoveAssigment:\t" << this << endl;
-		return *this;
-	}
+	String& operator=(const String& other);
+	const char operator[](int i) const;
+	char& operator[](int i);
+	String& operator= (String&& other);
 };
+///////////////////////////////////////////////////////////
+// Class declaration end
+/////////////////////////////////////////
+//Class defenition 
+const char*String:: get_str()const
+{
+	return str;
+}
+char*String:: get_str()
+{
+	return str;
+}
+int String::get_size()const
+{
+	return size;
+}
+//				Constructors:
+	String::String(int size) :
+	size(size),
+	str(new char[size] {})
+{
+	//this->size = size;
+	//this->str = new char [size] {};
+	cout << "DefConstructor:\t" << this << endl;
+}
+String::String(const char str[]) :String(strlen(str) + 1)  // :String(strlen(str) + 1) - это для this, а серый str нужен только для нужного выделения памяти.
+{
+	//this->size = strlen(str) + 1;
+	//this->str = new char[size] {};
+	for (int i = 0; str[i]; i++)this->str[i] = str[i];
+	cout << "Constructor:\t" << this << endl;
+}
+String::String(const String& other) :String(other.str)
+{
+	//this->size = other.size;
+	//this->str = new char [size] {};
+	cout << "CopyConstructor: " << this << endl;
+}
+String::String(String&& other) :size()
+{
+	//String&& - r-value reference
+	this->size = other.size;
+	this->str = other.str;
+	other.size = 0;
+	other.str = nullptr;
+
+	cout << "MoveConstructor:" << this << endl;
+}
+String::~String()
+{
+	delete[] str;
+	cout << "Destructor:\t" << this << endl;
+}
+
+//				Metods:
+void String::print()const
+{
+	cout << "Size:\t" << size << endl;
+	cout << "Str:\t" << str << endl;
+}
+//				Operators:
+String& String::operator=(const String& other)
+{
+	if (this == &other)return *this;
+	delete[]this->str;
+	this->size = other.size;
+	this->str = new char [size] {};
+	for (int i = 0; i < size; i++)this->str[i] = other.str[i];
+	cout << "CopyAssigment:\t" << this << endl;
+	return *this;
+}
+const char String::operator[](int i) const
+{
+	return str[i];
+}
+char&String:: operator[](int i)
+{
+	return str[i];
+}
+String& String:: operator= (String&& other)
+{
+	if (this == &other)return *this;
+	delete[]this->str;
+	this->size = other.size;
+	this->str = other.str;
+	other.size = 0;
+	other.str = nullptr;
+	cout << "MoveAssigment:\t" << this << endl;
+	return *this;
+}
 
 std::ostream& operator<<(std::ostream& os, const String& str);
 String operator+(const String& left, const String& right);
+
+///////////////////////////////////////////////////
+// Class defenition
 
 void main()
 {
